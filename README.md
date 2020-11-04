@@ -43,7 +43,7 @@ python test_semseg.py --log_dir pointnet2_sem_seg_psn --test_area 5 --visual
 ```
 
 
-## Reference By
+## Reference
 Our experiment is heavily referenced
 [yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)<br>
 Thanks!
