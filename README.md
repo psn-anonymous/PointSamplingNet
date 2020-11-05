@@ -1,6 +1,7 @@
 # Point Sampling Net: Fast Subsampling and Local Grouping for Deep Learning on Point Cloud 
 
-This repo is implementation for our paper Point Sampling Net: Fast Subsampling and Local Grouping for Deep Learning on Point Cloud
+This repo is implementation for our paper:<br>
+Point Sampling Net: Fast Subsampling and Local Grouping for Deep Learning on Point Cloud
 
 
 ## Classification
