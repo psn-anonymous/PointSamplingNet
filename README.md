@@ -14,7 +14,7 @@ This repo has been tested on follow environments
 Ubuntu 20.04<br>
 Python 3.8.5<br>
 PyTorch 1.7.0<br>
-NVIDIA CUDA Toolkits 10.2<br>
+NVIDIA CUDA Toolkit 10.2<br>
 NVIDIA cudnn 7.6.5<br>
 <br>
 You can build the software environment through **conda**  easily
