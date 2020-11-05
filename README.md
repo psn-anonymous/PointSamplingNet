@@ -13,7 +13,7 @@ The [**CORE FILE**](https://github.com/psn-anonymous/PointSamplingNet/blob/maste
 ## Environments
 This repo has been tested on follow environments
 ### Software
-Ubuntu 20.04<br>
+Canonical Ubuntu 20.04.1 LTS / Microsoft Windows 10 Pro<br>
 Python 3.8.5<br>
 PyTorch 1.7.0<br>
 NVIDIA CUDA Toolkit 10.2<br>
