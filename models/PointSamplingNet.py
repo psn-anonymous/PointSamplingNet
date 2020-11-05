@@ -49,7 +49,7 @@ class PointSamplingNet(nn.Module):
 
         self.softmax = nn.Softmax(dim=1)
 
-        self.S = num_to_sample
+        self.s = num_to_sample
         self.n = max_local_num
 
     def forward(self, coordinate: Tensor) -> Tuple[Tensor, Tensor]:
@@ -62,9 +62,9 @@ class PointSamplingNet(nn.Module):
             sampled indices: the indices of sampled points, [B, s]
             grouped_indices: the indices of grouped points, [B, s, n]
         """
-        _, N, _ = coordinate.size()
+        _, m, _ = coordinate.size()
 
-        assert self.S < N, "The number to sample must less than input points !"
+        assert self.s < m, "The number to sample must less than input points !"
 
         x = coordinate.transpose(2, 1)  # Channel First
 
@@ -73,7 +73,7 @@ class PointSamplingNet(nn.Module):
 
         if self.global_feature:
             max_feature = torch.max(x, 2, keepdim=True)[0]
-            max_feature = max_feature.repeat(1, 1, N)   # [B, mlp[-1], m]
+            max_feature = max_feature.repeat(1, 1, m)   # [B, mlp[-1], m]
             x = torch.cat([x, max_feature], 1)  # [B, mlp[-1] * 2, m]
 
         x = self.mlp_convs[-1](x)   # [B,s,m]
