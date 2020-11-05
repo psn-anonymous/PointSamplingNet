@@ -8,7 +8,7 @@ This repo is implementation for our paper :
 ![Architecture of Point Sampling Net](https://github.com/psn-anonymous/PointSamplingNet/blob/master/image/psn.png "Architecture of Point Sampling Net")
 **Point Sampling Net** is a differentiable fast grouping and sampling method for deep learning on point cloud, which can be applied to mainstream point cloud deep learning models. Point Sampling Net perform grouping and sampling tasks at the same time. It does not use the relationship between points as a grouping reference, so that the inference speed is independent of the number of points, and friendly to parallel implementation, that reduces the time consumption of sampling and grouping effectively.<br>
 <br>
-[Here](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py) is the core file of Point Sampling Net.
+[**Here**](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py) is the core file of Point Sampling Net.
 
 ## Environments
 This repo has been tested on follow environments
