@@ -58,5 +58,5 @@ python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
 
 
 ## Reference
-Our experiment is heavily referenced [yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)<br>
-Thanks!
+This implementation is heavily reference to [yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)<br>
+Thanks very much !
