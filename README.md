@@ -11,7 +11,7 @@ This repository is the implementation for our paper :<br>
 The [**CORE FILE**](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py) of Point Sampling Net: [models/PointSamplingNet.py](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py)
 
 ## Environments
-This implementation has been tested on follow environments
+This implementation has been tested on follow environments:
 ### Software
 Canonical Ubuntu 20.04.1 LTS / Microsoft Windows 10 Pro<br>
 Python 3.8.5<br>
