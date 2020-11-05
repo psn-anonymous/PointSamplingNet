@@ -8,17 +8,17 @@ from typing import List, Tuple
 
 class PointSamplingNet(nn.Module):
     """
-    Point Sampling Net.
+    Point Sampling Net PyTorch Module.
+
+    Attributes:
+        num_to_sample: the number to sample, int
+        max_local_num: the max number of local area, int
+        mlp: the channels of feature transform function, List[int]
+        global_geature: whether enable global feature, bool
     """
     def __init__(self, num_to_sample: int= 512, max_local_num: int = 32, mlp: List[int] = [32, 64, 256], global_feature: bool = False) -> None:
         """
-        Init the PSN.
-
-        Input:
-            num_to_sample: the number to sample, int
-            max_local_num: the max number of local area, int
-            mlp: the channels of feature transform function, List[int]
-            global_geature: whether enable global feature, bool
+        Initialization of Point Sampling Net.
         """
         super(PointSamplingNet, self).__init__()
 
@@ -52,11 +52,13 @@ class PointSamplingNet(nn.Module):
 
     def forward(self, coordinate: Tensor) -> Tuple[Tensor, Tensor]:
         """
-        Input:
+        Forward propagation of Point Sampling Net
+
+        Args:
             coordinate: input points position data, [B, m, 3]
-        Return:
+        Returns:
             sampled indices: the indices of sampled points, [B, s]
-            grouped_indices: the indices of grouping points, [B, s, n]
+            grouped_indices: the indices of grouped points, [B, s, n]
         """
         _, N, _ = coordinate.size()
 
