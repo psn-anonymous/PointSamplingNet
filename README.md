@@ -16,8 +16,8 @@ This implementation has been tested on follow environments
 Canonical Ubuntu 20.04.1 LTS / Microsoft Windows 10 Pro<br>
 Python 3.8.5<br>
 PyTorch 1.7.0<br>
-NVIDIA CUDA Toolkit 10.2<br>
-NVIDIA cudnn 7.6.5<br>
+NVIDIA® CUDA® Toolkit 10.2.89<br>
+NVIDIA® CUDA® Deep Neural Network library (cuDNN) 7.6.5<br>
 <br>
 You can build the software environment through **conda**  easily
 ```
