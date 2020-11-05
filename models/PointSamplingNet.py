@@ -73,17 +73,17 @@ class PointSamplingNet(nn.Module):
 
         if self.global_feature:
             max_feature = torch.max(x, 2, keepdim=True)[0]
-            max_feature = max_feature.repeat(1, 1, N)  # [B, mlp[-1], m]
-            x = torch.cat([x, max_feature], 1)  # [B, mlp[-1]*2, m]
+            max_feature = max_feature.repeat(1, 1, N)   # [B, mlp[-1], m]
+            x = torch.cat([x, max_feature], 1)  # [B, mlp[-1] * 2, m]
 
-        x = self.mlp_convs[-1](x)  # [B,S,m]
+        x = self.mlp_convs[-1](x)   # [B,s,m]
 
-        Q = self.softmax(x)  # [B, S, N]
+        Q = self.softmax(x)  # [B, s, m]
 
-        _, indices = torch.sort(input=Q, dim=2, descending=True)  # [B, S, m]
+        _, indices = torch.sort(input=Q, dim=2, descending=True)    # [B, s, m]
 
-        grouped_indices = indices[:, :, 0:self.n]  # [B, S, n]
+        grouped_indices = indices[:, :, 0:self.n]   # [B, s, n]
 
-        sampled_indices = indices[:, :, 0]  # [B, S]
+        sampled_indices = indices[:, :, 0]  # [B, s]
 
         return sampled_indices, grouped_indices
