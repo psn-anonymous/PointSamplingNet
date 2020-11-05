@@ -142,6 +142,7 @@ def main(args):
     best_instance_acc = 0.0
     best_class_acc = 0.0
     mean_correct = []
+    best_epoch = 0
 
     '''TRANING'''
     logger.info('Start training...')
