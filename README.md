@@ -8,6 +8,22 @@ This repo is implementation for our paper :
 ![Architecture of Point Sampling Net](https://github.com/psn-anonymous/PointSamplingNet/blob/master/image/psn.png "Architecture of Point Sampling Net")
 **Point Sampling Net** is a differentiable fast grouping and sampling method for deep learning on point cloud, which can be applied to mainstream point cloud deep learning models. Point Sampling Net perform grouping and sampling tasks at the same time. It does not use the relationship between points as a grouping reference, so that the inference speed is independent of the number of points, and friendly to parallel implementation, that reduces the time consumption of sampling and grouping effectively.
 
+## Environments
+This repo has been tested on follow environments
+### Software
+Ubuntu 20.04<br>
+Python 3.8.5<br>
+PyTorch 1.7.0<br>
+NVIDIA CUDA Toolkits 10.2<br>
+NVIDIA cudnn 7.6.5<br>
+<br>
+You can build the software environment through **conda**  easily
+```
+conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+```
+### Hardware
+Intel Core i9 9900K<br>
+NVIDIA TITAN RTX
 
 ## Classification
 ### Data Preparation
@@ -44,16 +60,3 @@ python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
 ## Reference
 Our experiment is heavily referenced [yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)<br>
 Thanks!
-
-
-## Environments
-This repo has been tested on follow environments
-### Software
-Ubuntu 20.04<br>
-Python 3.8.5<br>
-Pytorch 1.7.0<br>
-NVIDIA CUDA Toolkits 10.2<br>
-NVIDIA cudnn 7.6.5
-### Hardware
-Intel Core i9 9900K<br>
-NVIDIA TITAN RTX
