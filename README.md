@@ -1,7 +1,12 @@
-# Point Sampling Net: Fast Subsampling and Local Grouping for Deep Learning on Point Cloud 
+# Point Sampling Net: Fast Subsampling and Local Grouping for Deep Learning on Point Cloud
+### Anonymous Currently
 
-This repo is implementation for our paper:<br>
-Point Sampling Net: Fast Subsampling and Local Grouping for Deep Learning on Point Cloud
+This repo is implementation for our paper :
+*Point Sampling Net: Fast Subsampling and Local Grouping for Deep Learning on Point Cloud*
+
+## Introduction
+![Architecture of Point Sampling Net](https://raw.githubusercontent.com/psn-anonymous/PointSamplingNet/master/image/psn.png?token=ARUCM55GF5FF7S5Z6IJ2EAK7UNUZA "Architecture of Point Sampling Net")
+Point Sampling Net is a differentiable fast grouping and sampling method for deep learning on point cloud, which can be applied to mainstream point cloud deep learning models. Point Sampling Net perform grouping and sampling tasks at the same time. It does not use the relationship between points as a grouping reference, so that the inference speed is independent of the number of points, and friendly to parallel implementation, that reduces the time consumption of sampling and grouping effectively.
 
 
 ## Classification
@@ -10,10 +15,7 @@ Download alignment **ModelNet** [here](https://shapenet.cs.stanford.edu/media/mo
 
 ### Run
 ```
-## Check model in ./models 
-
-python train_cls.py --model pointnet2_cls_ssg_psn --normal --log_dir pointnet2_cls_ssg_psn
-python test_cls.py --normal --log_dir pointnet2_cls_ssg_psn
+python train_cls.py --log_dir [your log dir]
 ```
 
 ## Part Segmentation
@@ -21,10 +23,7 @@ python test_cls.py --normal --log_dir pointnet2_cls_ssg_psn
 Download alignment **ShapeNet** [here](https://shapenet.cs.stanford.edu/media/shapenetcore_partanno_segmentation_benchmark_v0_normal.zip)  and save in `data/shapenetcore_partanno_segmentation_benchmark_v0_normal/`.
 ### Run
 ```
-## Check model in ./models 
-
-python train_partseg.py --model pointnet2_part_seg_ssg_psn --normal --log_dir pointnet2_part_seg_ssg_psn
-python test_partseg.py --normal --log_dir pointnet2_part_seg_ssg_psn
+python train_partseg.py --normal --log_dir [your log dir]
 ```
 
 ## Semantic Segmentation
@@ -37,20 +36,24 @@ python collect_indoor3d_data.py
 Processed data will save in `data/stanford_indoor3d/`.
 ### Run
 ```
-## Check model in ./models 
-## E.g. pointnet2_ssg
-python train_semseg.py --model pointnet2_sem_seg_psn --test_area 5 --log_dir pointnet2_sem_seg_psn
-python test_semseg.py --log_dir pointnet2_sem_seg_psn --test_area 5 --visual
+python train_semseg.py --log_dir [your log dir]
+python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
 ```
 
 
 ## Reference
-Our experiment is heavily referenced
-[yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)<br>
+Our experiment is heavily referenced [yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)
 Thanks!
 
 
 ## Environments
-Ubuntu 20.04 <br>
-Python 3.8.5 <br>
+This repo has been tested on follow environments
+### Software
+Ubuntu 20.04
+Python 3.8.5
 Pytorch 1.7.0
+NVIDIA CUDA Toolkits 10.2
+NVIDIA cudnn 7.6.5
+### Hardware
+Intel Core i9 9900K
+NVIDIA TITAN RTX
