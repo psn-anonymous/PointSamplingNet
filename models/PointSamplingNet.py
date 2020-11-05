@@ -27,23 +27,27 @@ class PointSamplingNet(nn.Module):
 
         assert len(mlp) > 1, "The number of MLP layers must greater than 1 !"
 
-        self.mlp_convs.append(nn.Conv1d(3, mlp[0], 1))
-        self.mlp_bns.append(nn.BatchNorm1d(mlp[0]))
+        self.mlp_convs.append(
+            nn.Conv1d(in_channels=3, out_channels=mlp[0], kernel_size=1))
+        self.mlp_bns.append(nn.BatchNorm1d(num_features=mlp[0]))
 
         for i in range(len(mlp)-1):
-            self.mlp_convs.append(nn.Conv1d(mlp[i], mlp[i+1], 1))
+            self.mlp_convs.append(
+                nn.Conv1d(in_channels=mlp[i], out_channels=mlp[i+1], kernel_size=1))
 
         for i in range(len(mlp)-1):
-            self.mlp_bns.append(nn.BatchNorm1d(mlp[i+1]))
+            self.mlp_bns.append(nn.BatchNorm1d(num_features=mlp[i+1]))
 
         self.global_feature = global_feature
 
         if self.global_feature:
-            self.mlp_convs.append(nn.Conv1d(mlp[-1] * 2, num_to_sample, 1))
+            self.mlp_convs.append(
+                nn.Conv1d(in_channels=mlp[-1] * 2, out_channels=num_to_sample, kernel_size=1))
         else:
-            self.mlp_convs.append(nn.Conv1d(mlp[-1], num_to_sample, 1))
+            self.mlp_convs.append(
+                nn.Conv1d(in_channels=mlp[-1], out_channels=num_to_sample, kernel_size=1))
 
-        self.softmax = nn.Softmax(1)
+        self.softmax = nn.Softmax(dim=1)
 
         self.S = num_to_sample
         self.n = max_local_num
@@ -74,7 +78,7 @@ class PointSamplingNet(nn.Module):
 
         x = self.mlp_convs[-1](x)  # [B,S,m]
 
-        Q = self.softmax(x)  # [B, S, N] 归一化
+        Q = self.softmax(x)  # [B, S, N]
 
         _, indices = torch.sort(input=Q, dim=2, descending=True)  # [B, S, m]
 
