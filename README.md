@@ -25,7 +25,7 @@ conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
 ```
 ### Hardware
 Intel® Core™ i9-9900K Processor (16M Cache, up to 5.00 GHz)<br>
-64GB DDR4 RAM
+64GB DDR4 RAM<br>
 NVIDIA® TITAN RTX™
 
 ## Classification
