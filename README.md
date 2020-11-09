@@ -11,10 +11,10 @@ Point Sampling Net has been tested on PointNet++, PointConv, RS-CNN, GAC. There 
 
 
 
-## Usage
+# Usage
 The [**CORE FILE**](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py) of Point Sampling Net: [models/PointSamplingNet.py](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py)
 
-### Software Dependencies
+## Software Dependencies
 Python 3.7 or newer<br>
 PyTorch 1.5 or newer<br>
 NVIDIA® CUDA® Toolkit 9.2 or newer<br>
@@ -25,31 +25,31 @@ You can build the software dependencies through **conda**  easily
 conda install pytorch torchvision torchaudio cudatoolkit -c pytorch
 ```
 
-### Import Point Sampling Net PyTorch Module
+## Import Point Sampling Net PyTorch Module
 You may import PSN pytorch module by:
 ```
 import PointSmaplingNet as psn
 ```
-### Native PSN
-#### Defining
+## Native PSN
+### Defining
 ```
 psn_layer = psn.PointSamplingNet(num_to_sample = 512, max_local_num = 32, mlp = [32, 256])
 ```
 Attribute *mlp* is the middle channels of PSN, because the channel of first layer and last layer must be 3 and sampling number.
-#### Forward Propagation
+### Forward Propagation
 ```
 sampled_indices, grouped_indices = psn_layer(coordinate = %coordinates of point cloud%)
 ```
 *sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.<br>
 *%coordinates of point cloud%* is a torch.Tensor object, its shape is [*batch size*, *number of points*, *3*].
 
-### PSN with Heuristic Condition
+## PSN with Heuristic Condition
 An example of PSN with radius query.
-#### Defining
+### Defining
 ```
 psn_radius_layer = psn.PointSamplingNetRadius(num_to_sample = 512, radius = 0.2, max_local_num = 32, mlp = [32, 256])
 ```
-#### Forward Propagation
+### Forward Propagation
 ```
 sampled_indices, grouped_indices = psn_radius_layer(coordinate = %coordinates of point cloud%)
 ```
@@ -57,73 +57,73 @@ sampled_indices, grouped_indices = psn_radius_layer(coordinate = %coordinates of
 You may implement your own heuristic condition function C(x) and replace the radius query function.<br><br>
 *Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local meaningful features.*
 
-### PSN with Multi-scale Grouping
-#### Defining
+## PSN with Multi-scale Grouping
+### Defining
 ```
 psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], mlp = [32, 256])
 ```
 Attribute *msg_n* is the list of multi-scale *n* ..
-#### Forward Propagation
+### Forward Propagation
 ```
 sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate = %coordinates of point cloud%)
 ```
 *sampled_indices* is the indices of sampled points, *grouped_indices_msg* is grouped indices of points of list of mutil-scale.
 
 
-## Visualize Effect
-### Sampling
+# Visualize Effect
+## Sampling
 ![Visualize of Sampling](https://github.com/psn-anonymous/PointSamplingNet/blob/master/image/plane1.png "Visualize of Sampling")
-### Grouping
+## Grouping
 ![Visualize of Grouping](https://github.com/psn-anonymous/PointSamplingNet/blob/master/image/plane2.png "Visualize of Grouping")
 
-## The Experiment on Deep Learning Networks
+# The Experiment on Deep Learning Networks
 There is an experiment on PointNet++
-### Environments
+## Environments
 This experiment has been tested on follow environments:
-#### Software
+### Software
 Canonical Ubuntu 20.04.1 LTS / Microsoft Windows 10 Pro<br>
 Python 3.8.5<br>
 PyTorch 1.7.0<br>
 NVIDIA® CUDA® Toolkit 10.2.89<br>
 NVIDIA® CUDA® Deep Neural Network library (cuDNN) 7.6.5<br>
 
-#### Hardware
+### Hardware
 Intel® Core™ i9-9900K Processor (16M Cache, up to 5.00 GHz)<br>
 64GB DDR4 RAM<br>
 NVIDIA® TITAN RTX™
 
-### Classification
-#### Data Preparation
+## Classification
+### Data Preparation
 Download alignment **ModelNet** [here](https://shapenet.cs.stanford.edu/media/modelnet40_normal_resampled.zip) and save in `data/modelnet40_normal_resampled/`.
 
-#### Run
+### Run
 ```
 python train_cls.py --log_dir [your log dir]
 ```
 
-### Part Segmentation
-#### Data Preparation
+## Part Segmentation
+### Data Preparation
 Download alignment **ShapeNet** [here](https://shapenet.cs.stanford.edu/media/shapenetcore_partanno_segmentation_benchmark_v0_normal.zip)  and save in `data/shapenetcore_partanno_segmentation_benchmark_v0_normal/`.
-#### Run
+### Run
 ```
 python train_partseg.py --normal --log_dir [your log dir]
 ```
 
-### Semantic Segmentation
-#### Data Preparation
+## Semantic Segmentation
+### Data Preparation
 Download 3D indoor parsing dataset (**S3DIS**) [here](http://buildingparser.stanford.edu/dataset.html)  and save in `data/Stanford3dDataset_v1.2_Aligned_Version/`.
 ```
 cd data_utils
 python collect_indoor3d_data.py
 ```
 Processed data will save in `data/stanford_indoor3d/`.
-#### Run
+### Run
 ```
 python train_semseg.py --log_dir [your log dir]
 python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
 ```
 
 
-### Reference
+## Reference
 This implementation of experiment is heavily reference to [yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)<br>
 Thanks very much !
