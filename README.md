@@ -71,9 +71,9 @@ sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate = %coordinates o
 
 
 # Visualize Effect
-## Sampling
+### Sampling
 ![Visualize of Sampling](https://github.com/psn-anonymous/PointSamplingNet/blob/master/image/plane1.png "Visualize of Sampling")
-## Grouping
+### Grouping
 ![Visualize of Grouping](https://github.com/psn-anonymous/PointSamplingNet/blob/master/image/plane2.png "Visualize of Grouping")
 
 # The Experiment on Deep Learning Networks
