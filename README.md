@@ -13,8 +13,8 @@ This repository is the implementation for our paper :<br>
 ## Usage
 The [**CORE FILE**](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py) of Point Sampling Net: [models/PointSamplingNet.py](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py)
 
-### Import to python
-You may import PSN:
+### Import to Python / PyTorch 
+You may import PSN by:
 ```
 import PointSmaplingNet as psn
 ```
