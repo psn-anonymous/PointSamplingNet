@@ -41,6 +41,12 @@ psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], m
 ```
 Attribute *msg_n* is the list of multi-scale n .
 
+## Visualize Effect
+### Sampling
+![Visualize of Sampling](https://github.com/psn-anonymous/PointSamplingNet/blob/master/image/plane1.png "Visualize of Sampling")
+### Grouping
+![Visualize of Grouping](https://github.com/psn-anonymous/PointSamplingNet/blob/master/image/plane2.png "Visualize of Grouping")
+
 ## The Experiment on Deep Learning Networks
 There is an experiment on PointNet++
 ### Environments
