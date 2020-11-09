@@ -57,7 +57,7 @@ sampled_indices, grouped_indices = psn_radius_layer(coordinate = %coordinates of
 You may implement your own heuristic condition function C(x) and replace the radius query function.<br><br>
 *Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local meaningful features.*
 
-## PSN with Multi-scale Grouping
+## PSN with Multi-Scale Grouping
 ### Defining
 ```
 psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], mlp = [32, 256])
