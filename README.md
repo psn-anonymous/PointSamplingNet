@@ -28,38 +28,69 @@ Intel® Core™ i9-9900K Processor (16M Cache, up to 5.00 GHz)<br>
 64GB DDR4 RAM<br>
 NVIDIA® TITAN RTX™
 
-## Classification
-### Data Preparation
+## Usage
+
+### Import to python
+You may import PSN:
+```
+import PointSmaplingNet as psn
+```
+### Native PSN
+You may define PSN layer by :
+```
+psn_layer = psn.PointSamplingNet(num_to_sample = 512, max_local_num = 32, mlp = [32, 256])
+```
+Attribute mlp is the middle channels of PSN, because the channel of first layer and last layer must be 3 and sampling number.
+
+### PSN with Heuristic Condition
+An example of PSN with radius query :
+```
+psn_radius_layer = psn.PointSamplingNetRadius(num_to_sample = 512, radius = 0.2, max_local_num = 32, mlp = [32, 256])
+```
+You may implement your own heuristic condition function C(x) and replace the radius query function.<br>
+Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local features.
+
+### PSN with Multi-scale Grouping
+You may define PSN with MSG by :
+```
+psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], mlp = [32, 256])
+```
+Attribute msg_n is the list of multi-scale n .
+
+## The Experiment on Deep Learning Networks
+There is an experiment on PointNet++
+### Classification
+#### Data Preparation
 Download alignment **ModelNet** [here](https://shapenet.cs.stanford.edu/media/modelnet40_normal_resampled.zip) and save in `data/modelnet40_normal_resampled/`.
 
-### Run
+#### Run
 ```
 python train_cls.py --log_dir [your log dir]
 ```
 
-## Part Segmentation
-### Data Preparation
+### Part Segmentation
+#### Data Preparation
 Download alignment **ShapeNet** [here](https://shapenet.cs.stanford.edu/media/shapenetcore_partanno_segmentation_benchmark_v0_normal.zip)  and save in `data/shapenetcore_partanno_segmentation_benchmark_v0_normal/`.
-### Run
+#### Run
 ```
 python train_partseg.py --normal --log_dir [your log dir]
 ```
 
-## Semantic Segmentation
-### Data Preparation
+### Semantic Segmentation
+#### Data Preparation
 Download 3D indoor parsing dataset (**S3DIS**) [here](http://buildingparser.stanford.edu/dataset.html)  and save in `data/Stanford3dDataset_v1.2_Aligned_Version/`.
 ```
 cd data_utils
 python collect_indoor3d_data.py
 ```
 Processed data will save in `data/stanford_indoor3d/`.
-### Run
+#### Run
 ```
 python train_semseg.py --log_dir [your log dir]
 python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
 ```
 
 
-## Reference
-This implementation is heavily reference to [yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)<br>
+### Reference
+This implementation of experiment is heavily reference to [yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)<br>
 Thanks very much !
