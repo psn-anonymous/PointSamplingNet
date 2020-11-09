@@ -15,18 +15,18 @@ Point Sampling Net has been tested on PointNet++, PointConv, RS-CNN, GAC. There 
 The [**CORE FILE**](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py) of Point Sampling Net: [models/PointSamplingNet.py](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py)
 
 ### Software Dependencies
-Python 3.8.5<br>
-PyTorch 1.7.0<br>
-NVIDIA® CUDA® Toolkit 10.2.89<br>
-NVIDIA® CUDA® Deep Neural Network library (cuDNN) 7.6.5<br>
+Python 3.7 or newer<br>
+PyTorch 1.5 or newer<br>
+NVIDIA® CUDA® Toolkit 9.2 or newer<br>
+NVIDIA® CUDA® Deep Neural Network library (cuDNN) 7.2 or newer<br>
 <br>
-You can build the software environment through **conda**  easily
+You can build the software dependencies through **conda**  easily
 ```
 conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
 ```
 
-### Import to Python / PyTorch 
-You may import PSN by:
+### Import Point Sampling Net PyTorch Module
+You may import PSN pytorch module by:
 ```
 import PointSmaplingNet as psn
 ```
