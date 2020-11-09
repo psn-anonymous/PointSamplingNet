@@ -10,24 +10,6 @@ This repository is the implementation for our paper :<br>
 <br>
 The [**CORE FILE**](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py) of Point Sampling Net: [models/PointSamplingNet.py](https://github.com/psn-anonymous/PointSamplingNet/blob/master/models/PointSamplingNet.py)
 
-## Environments
-This implementation has been tested on follow environments:
-### Software
-Canonical Ubuntu 20.04.1 LTS / Microsoft Windows 10 Pro<br>
-Python 3.8.5<br>
-PyTorch 1.7.0<br>
-NVIDIA® CUDA® Toolkit 10.2.89<br>
-NVIDIA® CUDA® Deep Neural Network library (cuDNN) 7.6.5<br>
-<br>
-You can build the software environment through **conda**  easily
-```
-conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
-```
-### Hardware
-Intel® Core™ i9-9900K Processor (16M Cache, up to 5.00 GHz)<br>
-64GB DDR4 RAM<br>
-NVIDIA® TITAN RTX™
-
 ## Usage
 
 ### Import to python
@@ -40,25 +22,44 @@ You may define PSN layer by :
 ```
 psn_layer = psn.PointSamplingNet(num_to_sample = 512, max_local_num = 32, mlp = [32, 256])
 ```
-Attribute mlp is the middle channels of PSN, because the channel of first layer and last layer must be 3 and sampling number.
+Attribute *mlp* is the middle channels of PSN, because the channel of first layer and last layer must be 3 and sampling number.
 
 ### PSN with Heuristic Condition
 An example of PSN with radius query :
 ```
 psn_radius_layer = psn.PointSamplingNetRadius(num_to_sample = 512, radius = 0.2, max_local_num = 32, mlp = [32, 256])
 ```
-You may implement your own heuristic condition function C(x) and replace the radius query function.<br>
-Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local features.
+You may implement your own heuristic condition function C(x) and replace the radius query function.<br><br>
+*Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local features.*
 
 ### PSN with Multi-scale Grouping
 You may define PSN with MSG by :
 ```
 psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], mlp = [32, 256])
 ```
-Attribute msg_n is the list of multi-scale n .
+Attribute *msg_n* is the list of multi-scale n .
 
 ## The Experiment on Deep Learning Networks
 There is an experiment on PointNet++
+### Environments
+This experiment has been tested on follow environments:
+#### Software
+Canonical Ubuntu 20.04.1 LTS / Microsoft Windows 10 Pro<br>
+Python 3.8.5<br>
+PyTorch 1.7.0<br>
+NVIDIA® CUDA® Toolkit 10.2.89<br>
+NVIDIA® CUDA® Deep Neural Network library (cuDNN) 7.6.5<br>
+<br>
+You can build the software environment through **conda**  easily
+```
+conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+```
+
+#### Hardware
+Intel® Core™ i9-9900K Processor (16M Cache, up to 5.00 GHz)<br>
+64GB DDR4 RAM<br>
+NVIDIA® TITAN RTX™
+
 ### Classification
 #### Data Preparation
 Download alignment **ModelNet** [here](https://shapenet.cs.stanford.edu/media/modelnet40_normal_resampled.zip) and save in `data/modelnet40_normal_resampled/`.
