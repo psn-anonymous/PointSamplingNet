@@ -41,7 +41,7 @@ psn_radius_layer = psn.PointSamplingNetRadius(num_to_sample = 512, radius = 0.2,
 ```
 sampled_indices, grouped_indices = psn_radius_layer(coordinate=[coordinates of point cloud])
 ```
-*sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.
+*sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.<br><br>
 You may implement your own heuristic condition function C(x) and replace the radius query function.<br><br>
 *Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local features.*
 
@@ -55,7 +55,7 @@ Attribute *msg_n* is the list of multi-scale *n* ..
 ```
 sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate=[coordinates of point cloud])
 ```
-*sampled_indices* is the indices of sampled points, *grouped_indices_msg* is the list of mutil-scale *n* grouped indices of points.
+*sampled_indices* is the indices of sampled points, *grouped_indices_msg* is grouped indices of points of list of mutil-scale.
 
 
 ## Visualize Effect
