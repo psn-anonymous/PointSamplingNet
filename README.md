@@ -20,26 +20,43 @@ You may import PSN by:
 import PointSmaplingNet as psn
 ```
 ### Native PSN
-You may define PSN layer by :
+#### Defining
 ```
 psn_layer = psn.PointSamplingNet(num_to_sample = 512, max_local_num = 32, mlp = [32, 256])
 ```
 Attribute *mlp* is the middle channels of PSN, because the channel of first layer and last layer must be 3 and sampling number.
+#### Forward Propagation
+```
+sampled_indices, grouped_indices = psn_layer(coordinate=[coordinates of point cloud])
+```
+*sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.
 
 ### PSN with Heuristic Condition
-An example of PSN with radius query :
+An example of PSN with radius query.
+#### Defining
 ```
 psn_radius_layer = psn.PointSamplingNetRadius(num_to_sample = 512, radius = 0.2, max_local_num = 32, mlp = [32, 256])
 ```
+#### Forward Propagation
+```
+sampled_indices, grouped_indices = psn_radius_layer(coordinate=[coordinates of point cloud])
+```
+*sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.
 You may implement your own heuristic condition function C(x) and replace the radius query function.<br><br>
 *Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local features.*
 
 ### PSN with Multi-scale Grouping
-You may define PSN with MSG by :
+#### Defining
 ```
 psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], mlp = [32, 256])
 ```
-Attribute *msg_n* is the list of multi-scale n .
+Attribute *msg_n* is the list of multi-scale *n* ..
+#### Forward Propagation
+```
+sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate=[coordinates of point cloud])
+```
+*sampled_indices* is the indices of sampled points, *grouped_indices_msg* is the list of mutil-scale *n* grouped indices of points.
+
 
 ## Visualize Effect
 ### Sampling
