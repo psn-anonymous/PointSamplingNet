@@ -22,7 +22,7 @@ NVIDIA® CUDA® Deep Neural Network library (cuDNN) 7.2 or newer<br>
 <br>
 You can build the software dependencies through **conda**  easily
 ```
-conda install pytorch torchvision torchaudio cudatoolkit cudnn -c pytorch
+conda install pytorch cudatoolkit cudnn -c pytorch
 ```
 
 ## Import Point Sampling Net PyTorch Module
