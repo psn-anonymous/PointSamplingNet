@@ -62,7 +62,7 @@ You may implement your own heuristic condition function C(x) and replace the rad
 ```
 psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], mlp = [32, 256])
 ```
-Attribute *msg_n* is the list of multi-scale *n* ..
+Attribute *msg_n* is the list of multi-scale *n*.
 ### Forward Propagation
 ```
 sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate = %coordinates of point cloud%)
