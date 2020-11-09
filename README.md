@@ -43,7 +43,7 @@ sampled_indices, grouped_indices = psn_radius_layer(coordinate=[coordinates of p
 ```
 *sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.<br><br>
 You may implement your own heuristic condition function C(x) and replace the radius query function.<br><br>
-*Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local features.*
+*Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local meaningful features.*
 
 ### PSN with Multi-scale Grouping
 #### Defining
