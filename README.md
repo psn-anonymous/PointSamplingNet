@@ -22,7 +22,7 @@ NVIDIA® CUDA® Deep Neural Network library (cuDNN) 7.2 or newer<br>
 <br>
 You can build the software dependencies through **conda**  easily
 ```shell
-$conda install pytorch cudatoolkit cudnn -c pytorch
+conda install pytorch cudatoolkit cudnn -c pytorch
 ```
 
 ## Import Point Sampling Net PyTorch Module
@@ -98,7 +98,7 @@ Download alignment **ModelNet** [here](https://shapenet.cs.stanford.edu/media/mo
 
 ### Run
 ```shell
-$python train_cls.py --log_dir [your log dir]
+python train_cls.py --log_dir [your log dir]
 ```
 
 ## Part Segmentation
@@ -106,21 +106,21 @@ $python train_cls.py --log_dir [your log dir]
 Download alignment **ShapeNet** [here](https://shapenet.cs.stanford.edu/media/shapenetcore_partanno_segmentation_benchmark_v0_normal.zip)  and save in `data/shapenetcore_partanno_segmentation_benchmark_v0_normal/`.
 ### Run
 ```shell
-$python train_partseg.py --normal --log_dir [your log dir]
+python train_partseg.py --normal --log_dir [your log dir]
 ```
 
 ## Semantic Segmentation
 ### Data Preparation
 Download 3D indoor parsing dataset (**S3DIS**) [here](http://buildingparser.stanford.edu/dataset.html)  and save in `data/Stanford3dDataset_v1.2_Aligned_Version/`.
 ```shell
-$cd data_utils
-$python collect_indoor3d_data.py
+cd data_utils
+python collect_indoor3d_data.py
 ```
 Processed data will save in `data/stanford_indoor3d/`.
 ### Run
 ```shell
-$python train_semseg.py --log_dir [your log dir]
-$python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
+python train_semseg.py --log_dir [your log dir]
+python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
 ```
 
 
