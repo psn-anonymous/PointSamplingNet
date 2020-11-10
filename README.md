@@ -36,10 +36,10 @@ psn_layer = psn.PointSamplingNet(num_to_sample = 512, max_local_num = 32, mlp = 
 Attribute *mlp* is the middle channels of PSN, because the channel of first layer and last layer must be 3 and sampling number.
 ### Forward Propagation
 ```python
-sampled_indices, grouped_indices = psn_layer(coordinate = *coordinates of point cloud*)
+sampled_indices, grouped_indices = psn_layer(coordinate = {coordinates of point cloud})
 ```
 *sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.<br>
-*coordinates of point cloud* is a torch.Tensor object, its shape is [*batch size*, *number of points*, *3*].
+*{coordinates of point cloud}* is a torch.Tensor object, its shape is [*batch size*, *number of points*, *3*].
 
 ## PSN with Heuristic Condition
 An example of PSN with radius query.
@@ -49,7 +49,7 @@ psn_radius_layer = psn.PointSamplingNetRadius(num_to_sample = 512, radius = 0.2,
 ```
 ### Forward Propagation
 ```python
-sampled_indices, grouped_indices = psn_radius_layer(coordinate = *coordinates of point cloud*)
+sampled_indices, grouped_indices = psn_radius_layer(coordinate = {coordinates of point cloud})
 ```
 *sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.<br><br>
 You may implement your own heuristic condition function C(x) and replace the radius query function.<br><br>
@@ -63,7 +63,7 @@ psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], m
 Attribute *msg_n* is the list of multi-scale *n*.
 ### Forward Propagation
 ```python
-sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate = *coordinates of point cloud*)
+sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate = {coordinates of point cloud})
 ```
 *sampled_indices* is the indices of sampled points, *grouped_indices_msg* is grouped indices of points of list of mutil-scale.
 
