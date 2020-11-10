@@ -129,7 +129,7 @@ This implementation of experiment is heavily reference to [yanx27/Pointnet_Point
 Thanks very much !
 
 # Reference
-[1] Qi, Charles Ruizhongtai, et al. “PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space.” *Advances in Neural Information Processing Systems*, 2017, pp. 5099–5108.
-[2] Wu, Wenxuan, et al. “PointConv: Deep Convolutional Networks on 3D Point Clouds.” *2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 2019, pp. 9621–9630.
-[3] Liu, Yongcheng, et al. “Relation-Shape Convolutional Neural Network for Point Cloud Analysis.” *2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 2019, pp. 8895–8904.
+[1] Qi, Charles Ruizhongtai, et al. “PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space.” *Advances in Neural Information Processing Systems*, 2017, pp. 5099–5108.<br>
+[2] Wu, Wenxuan, et al. “PointConv: Deep Convolutional Networks on 3D Point Clouds.” *2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 2019, pp. 9621–9630.<br>
+[3] Liu, Yongcheng, et al. “Relation-Shape Convolutional Neural Network for Point Cloud Analysis.” *2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 2019, pp. 8895–8904.<br>
 [4] Wang, Lei, et al. “Graph Attention Convolution for Point Cloud Semantic Segmentation.” *2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 2019, pp. 10296–10305.
