@@ -113,7 +113,7 @@ $python train_partseg.py --normal --log_dir [your log dir]
 ### Data Preparation
 Download 3D indoor parsing dataset (**S3DIS**) [here](http://buildingparser.stanford.edu/dataset.html)  and save in `data/Stanford3dDataset_v1.2_Aligned_Version/`.
 ```shell
-cd data_utils
+$cd data_utils
 $python collect_indoor3d_data.py
 ```
 Processed data will save in `data/stanford_indoor3d/`.
