@@ -7,7 +7,7 @@ This repository is the implementation for our paper :<br>
 ## Introduction
 ![Architecture of Point Sampling Net](https://github.com/psn-anonymous/PointSamplingNet/blob/master/image/psn.png "Architecture of Point Sampling Net")<br>
 **Point Sampling Net** is a differentiable fast grouping and sampling method for deep learning on point cloud, which can be applied to mainstream point cloud deep learning models. Point Sampling Net perform grouping and sampling tasks at the same time. It does not use the relationship between points as a grouping reference, so that the inference speed is independent of the number of points, and friendly to parallel implementation, that reduces the time consumption of sampling and grouping effectively.<br>
-Point Sampling Net has been tested on PointNet++, PointConv, RS-CNN, GAC. There is not obvious adverse effects on these deep learning models of classification, part segmentation, and scene segmentation tasks and the speed of training and inference has been significantly improved.
+Point Sampling Net has been tested on PointNet++[], PointConv[], RS-CNN[], GAC[]. There is not obvious adverse effects on these deep learning models of classification, part segmentation, and scene segmentation tasks and the speed of training and inference has been significantly improved.
 
 
 
@@ -124,6 +124,12 @@ python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
 ```
 
 
-## Reference
+## Experiment Reference
 This implementation of experiment is heavily reference to [yanx27/Pointnet_Pointnet2_pytorch](https://github.com/yanx27/Pointnet_Pointnet2_pytorch)<br>
 Thanks very much !
+
+# Reference
+[1] Qi, Charles Ruizhongtai, et al. “PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space.” *Advances in Neural Information Processing Systems*, 2017, pp. 5099–5108.
+[2] Wu, Wenxuan, et al. “PointConv: Deep Convolutional Networks on 3D Point Clouds.” *2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 2019, pp. 9621–9630.
+[3] Liu, Yongcheng, et al. “Relation-Shape Convolutional Neural Network for Point Cloud Analysis.” *2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 2019, pp. 8895–8904.
+[4] Wang, Lei, et al. “Graph Attention Convolution for Point Cloud Semantic Segmentation.” *2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, 2019, pp. 10296–10305.
