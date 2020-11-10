@@ -21,37 +21,37 @@ NVIDIA® CUDA® Toolkit 9.2 or newer<br>
 NVIDIA® CUDA® Deep Neural Network library (cuDNN) 7.2 or newer<br>
 <br>
 You can build the software dependencies through **conda**  easily
-```
-conda install pytorch cudatoolkit cudnn -c pytorch
+```shell
+$conda install pytorch cudatoolkit cudnn -c pytorch
 ```
 
 ## Import Point Sampling Net PyTorch Module
 You may import PSN pytorch module by:
-```
+```python
 import PointSmaplingNet as psn
 ```
 ## Native PSN
 ### Defining
-```
+```python
 psn_layer = psn.PointSamplingNet(num_to_sample = 512, max_local_num = 32, mlp = [32, 256])
 ```
 Attribute *mlp* is the middle channels of PSN, because the channel of first layer and last layer must be 3 and sampling number.
 ### Forward Propagation
-```
-sampled_indices, grouped_indices = psn_layer(coordinate = %coordinates of point cloud%)
+```python
+sampled_indices, grouped_indices = psn_layer(coordinate = %{coordinates of point cloud})
 ```
 *sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.<br>
-*%coordinates of point cloud%* is a torch.Tensor object, its shape is [*batch size*, *number of points*, *3*].
+*%{coordinates of point cloud}* is a torch.Tensor object, its shape is [*batch size*, *number of points*, *3*].
 
 ## PSN with Heuristic Condition
 An example of PSN with radius query.
 ### Defining
-```
+```python
 psn_radius_layer = psn.PointSamplingNetRadius(num_to_sample = 512, radius = 0.2, max_local_num = 32, mlp = [32, 256])
 ```
 ### Forward Propagation
-```
-sampled_indices, grouped_indices = psn_radius_layer(coordinate = %coordinates of point cloud%)
+```python
+sampled_indices, grouped_indices = psn_radius_layer(coordinate = %{coordinates of point cloud})
 ```
 *sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.<br><br>
 You may implement your own heuristic condition function C(x) and replace the radius query function.<br><br>
@@ -59,13 +59,13 @@ You may implement your own heuristic condition function C(x) and replace the rad
 
 ## PSN with Multi-Scale Grouping
 ### Defining
-```
+```python
 psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], mlp = [32, 256])
 ```
 Attribute *msg_n* is the list of multi-scale *n*.
 ### Forward Propagation
-```
-sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate = %coordinates of point cloud%)
+```python
+sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate = %{coordinates of point cloud})
 ```
 *sampled_indices* is the indices of sampled points, *grouped_indices_msg* is grouped indices of points of list of mutil-scale.
 
@@ -97,30 +97,30 @@ NVIDIA® TITAN RTX™
 Download alignment **ModelNet** [here](https://shapenet.cs.stanford.edu/media/modelnet40_normal_resampled.zip) and save in `data/modelnet40_normal_resampled/`.
 
 ### Run
-```
-python train_cls.py --log_dir [your log dir]
+```shell
+$python train_cls.py --log_dir [your log dir]
 ```
 
 ## Part Segmentation
 ### Data Preparation
 Download alignment **ShapeNet** [here](https://shapenet.cs.stanford.edu/media/shapenetcore_partanno_segmentation_benchmark_v0_normal.zip)  and save in `data/shapenetcore_partanno_segmentation_benchmark_v0_normal/`.
 ### Run
-```
-python train_partseg.py --normal --log_dir [your log dir]
+```shell
+$python train_partseg.py --normal --log_dir [your log dir]
 ```
 
 ## Semantic Segmentation
 ### Data Preparation
 Download 3D indoor parsing dataset (**S3DIS**) [here](http://buildingparser.stanford.edu/dataset.html)  and save in `data/Stanford3dDataset_v1.2_Aligned_Version/`.
-```
+```shell
 cd data_utils
-python collect_indoor3d_data.py
+$python collect_indoor3d_data.py
 ```
 Processed data will save in `data/stanford_indoor3d/`.
 ### Run
-```
-python train_semseg.py --log_dir [your log dir]
-python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
+```shell
+$python train_semseg.py --log_dir [your log dir]
+$python test_semseg.py --log_dir [your log dir] --test_area 5 --visual
 ```
 
 
