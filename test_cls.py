@@ -39,7 +39,7 @@ def test(model, loader, num_class=40, vote_num=1):
         classifier = model.eval()
         vote_pool = torch.zeros(target.size()[0],num_class).cuda()
         for _ in range(vote_num):
-            pred, _ = classifier(points)
+            pred, _ = classifier(points, False)
             vote_pool += pred
         pred = vote_pool/vote_num
         pred_choice = pred.data.max(1)[1]

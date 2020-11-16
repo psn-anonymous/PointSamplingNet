@@ -45,7 +45,7 @@ def test(model, loader, num_class=40):
         points = points.transpose(2, 1)
         points, target = points.cuda(), target.cuda()
         classifier = model.eval()
-        pred, _ = classifier(points)
+        pred, _ = classifier(points, False)
         pred_choice = pred.data.max(1)[1]
         for cat in np.unique(target.cpu()):
             classacc = pred_choice[target==cat].eq(target[target==cat].long().data).cpu().sum()
@@ -110,7 +110,7 @@ def main(args):
     num_class = 40
     MODEL = importlib.import_module(args.model)
     shutil.copy('./models/%s.py' % args.model, str(experiment_dir))
-    shutil.copy('./models/pointnet_util.py', str(experiment_dir))
+    shutil.copy('./models/pointnet_util_psn.py', str(experiment_dir))
 
     classifier = MODEL.get_model(num_class,normal_channel=args.normal).cuda()
     criterion = MODEL.get_loss().cuda()
@@ -164,7 +164,7 @@ def main(args):
             optimizer.zero_grad()
 
             classifier = classifier.train()
-            pred, trans_feat = classifier(points)
+            pred, trans_feat = classifier(points, False)
             loss = criterion(pred, target.long(), trans_feat)
             pred_choice = pred.data.max(1)[1]
             correct = pred_choice.eq(target.long().data).cpu().sum()

@@ -132,7 +132,7 @@ def main(args):
                     torch_data = torch.Tensor(batch_data)
                     torch_data= torch_data.float().cuda()
                     torch_data = torch_data.transpose(2, 1)
-                    seg_pred, _ = classifier(torch_data)
+                    seg_pred, _ = classifier(torch_data, False)
                     batch_pred_label = seg_pred.contiguous().cpu().data.max(2)[1].numpy()
 
                     vote_label_pool = add_vote(vote_label_pool, batch_point_index[0:real_batch_size, ...],

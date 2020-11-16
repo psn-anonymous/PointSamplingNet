@@ -19,16 +19,16 @@ class get_model(nn.Module):
         self.drop2 = nn.Dropout(0.4)
         self.fc3 = nn.Linear(256, num_class)
 
-    def forward(self, xyz):
+    def forward(self, xyz, train):
         B, _, _ = xyz.shape
         if self.normal_channel:
             norm = xyz[:, 3:, :]
             xyz = xyz[:, :3, :]
         else:
             norm = None
-        l1_xyz, l1_points = self.sa1(xyz, norm)
-        l2_xyz, l2_points = self.sa2(l1_xyz, l1_points)
-        l3_xyz, l3_points = self.sa3(l2_xyz, l2_points)
+        l1_xyz, l1_points = self.sa1(xyz, norm, train)
+        l2_xyz, l2_points = self.sa2(l1_xyz, l1_points, train)
+        l3_xyz, l3_points = self.sa3(l2_xyz, l2_points, train)
         x = l3_points.view(B, 1024)
         x = self.drop1(F.relu(self.bn1(self.fc1(x))))
         x = self.drop2(F.relu(self.bn2(self.fc2(x))))

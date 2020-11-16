@@ -23,7 +23,7 @@ class get_model(nn.Module):
         self.drop1 = nn.Dropout(0.5)
         self.conv2 = nn.Conv1d(128, num_classes, 1)
 
-    def forward(self, xyz, cls_label, tiaoshi=None):
+    def forward(self, xyz, cls_label, train):
         # Set Abstraction layers
         B,C,N = xyz.shape
         if self.normal_channel:
@@ -32,9 +32,9 @@ class get_model(nn.Module):
         else:
             l0_points = xyz
             l0_xyz = xyz
-        l1_xyz, l1_points = self.sa1(l0_xyz, l0_points, tiaoshi)
-        l2_xyz, l2_points = self.sa2(l1_xyz, l1_points, tiaoshi)
-        l3_xyz, l3_points = self.sa3(l2_xyz, l2_points, tiaoshi)
+        l1_xyz, l1_points = self.sa1(l0_xyz, l0_points, train)
+        l2_xyz, l2_points = self.sa2(l1_xyz, l1_points, train)
+        l3_xyz, l3_points = self.sa3(l2_xyz, l2_points, train)
         # Feature Propagation layers
         l2_points = self.fp3(l2_xyz, l3_xyz, l2_points, l3_points)
         l1_points = self.fp2(l1_xyz, l2_xyz, l1_points, l2_points)

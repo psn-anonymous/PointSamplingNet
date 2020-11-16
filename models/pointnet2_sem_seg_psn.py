@@ -19,14 +19,14 @@ class get_model(nn.Module):
         self.drop1 = nn.Dropout(0.5)
         self.conv2 = nn.Conv1d(128, num_classes, 1)
 
-    def forward(self, xyz):
+    def forward(self, xyz, train):
         l0_points = xyz
         l0_xyz = xyz[:,:3,:]
 
-        l1_xyz, l1_points = self.sa1(l0_xyz, l0_points)
-        l2_xyz, l2_points = self.sa2(l1_xyz, l1_points)
-        l3_xyz, l3_points = self.sa3(l2_xyz, l2_points)
-        l4_xyz, l4_points = self.sa4(l3_xyz, l3_points)
+        l1_xyz, l1_points = self.sa1(l0_xyz, l0_points, train)
+        l2_xyz, l2_points = self.sa2(l1_xyz, l1_points, train)
+        l3_xyz, l3_points = self.sa3(l2_xyz, l2_points, train)
+        l4_xyz, l4_points = self.sa4(l3_xyz, l3_points, train)
 
         l3_points = self.fp4(l3_xyz, l4_xyz, l3_points, l4_points)
         l2_points = self.fp3(l2_xyz, l3_xyz, l2_points, l3_points)

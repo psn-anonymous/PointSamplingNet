@@ -47,17 +47,16 @@ class PointSamplingNet(nn.Module):
             self.mlp_convs.append(
                 nn.Conv1d(in_channels=mlp[-1], out_channels=num_to_sample, kernel_size=1))
 
-        self.softmax = nn.Softmax(dim=1)
-
         self.s = num_to_sample
         self.n = max_local_num
 
-    def forward(self, coordinate: Tensor) -> Tuple[Tensor, Tensor]:
+    def forward(self, coordinate: Tensor, feature: Tensor, train: bool = False) -> Tuple[Tensor, Tensor]:
         """
         Forward propagation of Point Sampling Net
 
         Args:
             coordinate: input points position data, [B, m, 3]
+            feature: input points feature, [B, m, d]
         Returns:
             sampled indices: the indices of sampled points, [B, s]
             grouped_indices: the indices of grouped points, [B, s, n]
@@ -78,15 +77,33 @@ class PointSamplingNet(nn.Module):
 
         x = self.mlp_convs[-1](x)   # [B,s,m]
 
-        Q = self.softmax(x)  # [B, s, m]
+        Q = torch.sigmoid(x)  # [B, s, m]
 
         _, indices = torch.sort(input=Q, dim=2, descending=True)    # [B, s, m]
+        grouped_indices = indices[:,:,:self.n]
+        grouped_points = index_points(coordinate, grouped_indices)[:,:,:self.n,:]  #[B,s,n,3]
+        if feature is not None:
+            grouped_feature = index_points(feature, grouped_indices)[:,:,:self.n,:]  #[B,s,n,d]
+            if not train:
+                sampled_points = grouped_points[:,:,0,:]  # [B,s,3]
+                sampled_feature = grouped_feature[:,:,0,:]  #[B,s,d]
+            else:
+                Q = gumbel_softmax_sample(Q)  # [B, s, m]
+                sampled_points = torch.matmul(Q, coordinate)  # [B,s,3]
+                sampled_feature = torch.matmul(Q, feature)  # [B,s,d]
+                grouped_feature[:,:,0,:] = sampled_feature
+        else:
+            if not train:
+                sampled_points = grouped_points[:,:,0,:]  # [B,s,3]
+                sampled_feature = None  #[B,s,d]
+            else:
+                Q = gumbel_softmax_sample(Q)  # [B, s, m]
+                sampled_points = torch.matmul(Q, coordinate)  # [B,s,3]
+                sampled_feature = None
+            grouped_feature = None
+        
 
-        grouped_indices = indices[:, :, 0:self.n]   # [B, s, n]
-
-        sampled_indices = indices[:, :, 0]  # [B, s]
-
-        return sampled_indices, grouped_indices
+        return sampled_points, grouped_points, sampled_feature, grouped_feature
 
 class PointSamplingNetRadius(nn.Module):
     """
@@ -294,3 +311,43 @@ def index_points(points, idx):
         device).view(view_shape).repeat(repeat_shape)
     new_points = points[batch_indices, idx, :]
     return new_points
+
+def sample_gumbel(shape, eps=1e-20):
+    U = torch.rand(shape)
+    U = U.cuda()
+    return -torch.log(-torch.log(U + eps) + eps)
+
+
+def gumbel_softmax_sample(logits, dim=-1, temperature=0.001):
+    y = logits + sample_gumbel(logits.size())
+    return F.softmax(y / temperature, dim=dim)
+
+def gumbel_softmax(logits, temperature=1.0, hard=False):
+    """Sample from the Gumbel-Softmax distribution and optionally discretize.
+    Args:
+      logits: [batch_size, n_class] unnormalized log-probs
+      temperature: non-negative scalar
+      hard: if True, take argmax, but differentiate w.r.t. soft sample y
+    Returns:
+      [batch_size, n_class] sample from the Gumbel-Softmax distribution.
+      If hard=True, then the returned sample will be one-hot, otherwise it will
+      be a probabilitiy distribution that sums to 1 across classes
+    """
+    y = gumbel_softmax_sample(logits, temperature)
+    if hard:
+        y_hard = onehot_from_logits(y)
+        #print(y_hard[0], "random")
+        y = (y_hard - y).detach() + y
+    return y
+
+def onehot_from_logits(logits, eps=0.0):
+    """
+    Given batch of logits, return one-hot sample using epsilon greedy strategy
+    (based on given epsilon)
+    """
+    # get best (according to current policy) actions in one-hot form
+    argmax_acs = (logits == logits.max(1, keepdim=True)[0]).float()
+    #print(logits[0],"a")
+    #print(len(argmax_acs),argmax_acs[0])
+    if eps == 0.0:
+        return argmax_acs

@@ -67,7 +67,7 @@ def index_points(points, idx):
     return new_points
 
 
-def sample_and_group_psn(npoint, sampled_idx, grouped_idx, nsample, xyz, points):
+def sample_and_group_psn(npoint, sampled_points, grouped_points, sampled_feature, grouped_feature, nsample, xyz, points):
     """
     Sampling and grouping point cloud with PSN.
 
@@ -83,17 +83,13 @@ def sample_and_group_psn(npoint, sampled_idx, grouped_idx, nsample, xyz, points)
     """
     B, _, C = xyz.shape
     S = npoint
-    sampling_idx = sampled_idx  # [B, s]
-    grouping_idx = grouped_idx  #[B,s,n]
-
-    grouped_xyz = index_points(xyz, grouping_idx)  # [B,s,n,3]
-    new_xyz = grouped_xyz[:, :, 0, :]  # [B,s,3]
+    grouped_xyz = grouped_points  # [B,s,n,3]
+    new_xyz = sampled_points  # [B,s,3]
     grouped_xyz_norm = grouped_xyz - new_xyz.view(B, S, 1, C).repeat([1, 1, nsample, 1])  # [B,s,n,3]
 
     torch.cuda.empty_cache()
     if points is not None:
-        grouped_points = index_points(points, grouping_idx)
-        new_points = torch.cat([grouped_xyz_norm, grouped_points], dim=-1)
+        new_points = torch.cat([grouped_xyz_norm, grouped_feature], dim=-1)
     else:
         new_points = grouped_xyz_norm
     return new_xyz, new_points
@@ -162,7 +158,7 @@ class PointNetSetAbstraction(nn.Module):
             # self.sampling = pointsampling.get_model(npoint)
             self.sampling = psn.PointSamplingNet(npoint, nsample, [64,128,256], global_feature=True)
 
-    def forward(self, xyz, points):
+    def forward(self, xyz, points, train):
         """
         Input:
             xyz: input points position data, [B, C, N]
@@ -178,9 +174,9 @@ class PointNetSetAbstraction(nn.Module):
         if self.group_all:
             new_xyz, new_points = sample_and_group_all(xyz, points)
         else:
-            sampled_idx,grouped_idx = self.sampling(xyz)
+            sampled_points, grouped_points, sampled_feature, grouped_feature = self.sampling(xyz,points,train)
             new_xyz, new_points = sample_and_group_psn(
-                self.npoint, sampled_idx, grouped_idx, self.nsample, xyz, points)
+                self.npoint, sampled_points, grouped_points, sampled_feature, grouped_feature, self.nsample, xyz, points)
         # new_xyz: sampled points position data, [B, npoint, C]
         # new_points: sampled points data, [B, npoint, nsample, C+D]
         new_points = new_points.permute(0, 3, 2, 1)  # [B, C+D, nsample,npoint]

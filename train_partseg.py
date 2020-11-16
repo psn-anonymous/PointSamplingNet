@@ -100,7 +100,7 @@ def main(args):
     '''MODEL LOADING'''
     MODEL = importlib.import_module(args.model)
     shutil.copy('models/%s.py' % args.model, str(experiment_dir))
-    shutil.copy('models/pointnet_util2.py', str(experiment_dir))
+    shutil.copy('models/pointnet_util_psn.py', str(experiment_dir))
 
     classifier = MODEL.get_model(num_part, normal_channel=args.normal).cuda()
     criterion = MODEL.get_loss().cuda()
@@ -175,7 +175,7 @@ def main(args):
             points = points.transpose(2, 1)
             optimizer.zero_grad()
             classifier = classifier.train()
-            seg_pred, trans_feat = classifier(points, to_categorical(label, num_classes))
+            seg_pred, trans_feat = classifier(points, to_categorical(label, num_classes), False)
             seg_pred = seg_pred.contiguous().view(-1, num_part)
             target = target.view(-1, 1)[:, 0]
             pred_choice = seg_pred.data.max(1)[1]
@@ -205,7 +205,7 @@ def main(args):
                 points, label, target = points.float().cuda(), label.long().cuda(), target.long().cuda()
                 points = points.transpose(2, 1)
                 classifier = classifier.eval()
-                seg_pred, _ = classifier(points, to_categorical(label, num_classes))
+                seg_pred, _ = classifier(points, to_categorical(label, num_classes), False)
                 cur_pred_val = seg_pred.cpu().data.numpy()
                 cur_pred_val_logits = cur_pred_val
                 cur_pred_val = np.zeros((cur_batch_size, NUM_POINT)).astype(np.int32)
