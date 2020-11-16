@@ -36,24 +36,12 @@ psn_layer = psn.PointSamplingNet(num_to_sample = 512, max_local_num = 32, mlp = 
 Attribute *mlp* is the middle channels of PSN, because the channel of first layer and last layer must be 3 and sampling number.
 ### Forward Propagation
 ```python
-sampled_indices, grouped_indices = psn_layer(coordinate = {coordinates of point cloud})
+sampled_points, grouped_points, sampled_feature, grouped_feature = psn_layer(coordinate = {coordinates of point cloud}, feature = {feature of point cloud})
 ```
-*sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.<br>
-*{coordinates of point cloud}* is a torch.Tensor object, its shape is [*batch size*, *number of points*, *3*].
-
-## PSN with Heuristic Condition
-An example of PSN with radius query.
-### Defining
-```python
-psn_radius_layer = psn.PointSamplingNetRadius(num_to_sample = 512, radius = 0.2, max_local_num = 32, mlp = [32, 256])
-```
-### Forward Propagation
-```python
-sampled_indices, grouped_indices = psn_radius_layer(coordinate = {coordinates of point cloud})
-```
-*sampled_indices* is the indices of sampled points, *grouped_indices* is the grouped indices of points.<br><br>
-You may implement your own heuristic condition function C(x) and replace the radius query function.<br><br>
-*Warning : We strongly recommend that you do **NOT** use heuristic condition if it is not necessary, because it may reduce the number of local meaningful features.*
+*sampled_points* is the sampled points, *grouped_points* is the grouped points.<br>
+*sampled_feature* is the sampled feature, *grouped_feature* is the grouped feature.<br>
+*{coordinates of point cloud}* is a torch.Tensor object, its shape is [*batch size*, *number of points*, *3*]<br>
+*{feature of point cloud}* is a torch.Tensor object, , its shape is [*batch size*, *number of points*, *D*].
 
 ## PSN with Multi-Scale Grouping
 ### Defining
@@ -63,9 +51,11 @@ psn_msg_layer = psn.PointSamplingNetMSG(num_to_sample = 512, msg_n = [32, 64], m
 Attribute *msg_n* is the list of multi-scale *n*.
 ### Forward Propagation
 ```python
-sampled_indices, grouped_indices_msg = psn_msg_layer(coordinate = {coordinates of point cloud})
+sampled_points, grouped_points_msg, sampled_feature, grouped_feature_msg = psn_msg_layer(coordinate = {coordinates of point cloud}, feature = {feature of point cloud})
 ```
-*sampled_indices* is the indices of sampled points, *grouped_indices_msg* is grouped indices of points of list of mutil-scale.
+*sampled_points* is the sampled points, *grouped_points_msg* is the list of mutil-scale grouped points.<br>
+*sampled_feature* is the sampled feature, *grouped_feature_msg* is the list of mutil-scale the grouped feature.
+
 
 # Visualize Effect
 ### Sampling

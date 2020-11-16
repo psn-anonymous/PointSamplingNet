@@ -101,7 +101,6 @@ class PointSamplingNet(nn.Module):
                 sampled_points = torch.matmul(Q, coordinate)  # [B,s,3]
                 sampled_feature = None
             grouped_feature = None
-        
 
         return sampled_points, grouped_points, sampled_feature, grouped_feature
 
@@ -253,7 +252,7 @@ class PointSamplingNetMSG(nn.Module):
         self.s = num_to_sample
         self.msg_n = msg_n
 
-    def forward(self, coordinate: Tensor) -> Tuple[Tensor, List[Tensor]]:
+    def forward(self, coordinate: Tensor, feature: Tensor, train: bool = False) -> Tuple[Tensor, Tensor]:
         """
         Forward propagation of Point Sampling Net
 
@@ -279,17 +278,38 @@ class PointSamplingNetMSG(nn.Module):
 
         x = self.mlp_convs[-1](x)   # [B,s,m]
 
-        Q = self.softmax(x)  # [B, s, m]
+
+        Q = torch.sigmoid(x)  # [B, s, m]
 
         _, indices = torch.sort(input=Q, dim=2, descending=True)    # [B, s, m]
-
-        grouped_indices_msg = []
+        grouped_indices = indices[:,:,:self.n]
+        grouped_points_msg = []
         for n in self.msg_n:
-            grouped_indices_msg.append(indices[:, :, :n])
+            grouped_points_msg.append(index_points(coordinate, grouped_indices)[:,:,:n,:])
+        if feature is not None:
+            grouped_feature_msg = []
+            for n in self.msg_n:
+                grouped_feature_msg.append(index_points(feature, grouped_indices)[:,:,:n,:])
+            if not train:
+                sampled_points = grouped_points_msg[0][:,:,0,:]  # [B,s,3]
+                sampled_feature = grouped_feature_msg[-1][:,:,0,:]  #[B,s,d]
+            else:
+                Q = gumbel_softmax_sample(Q)  # [B, s, m]
+                sampled_points = torch.matmul(Q, coordinate)  # [B,s,3]
+                sampled_feature = torch.matmul(Q, feature)  # [B,s,d]
+                for n in self.msg_n:
+                    grouped_feature_msg[n][:,:,0,:] = sampled_feature
+        else:
+            if not train:
+                sampled_points = grouped_points_msg[0][:,:,0,:]  # [B,s,3]
+                sampled_feature = None  #[B,s,d]
+            else:
+                Q = gumbel_softmax_sample(Q)  # [B, s, m]
+                sampled_points = torch.matmul(Q, coordinate)  # [B,s,3]
+                sampled_feature = None
+            grouped_feature_msg = None
 
-        sampled_indices = indices[:, :, 0]  # [B, s]
-
-        return sampled_indices, grouped_indices_msg
+        return sampled_points, grouped_points_msg, sampled_feature, grouped_feature_msg
 
 
 def index_points(points, idx):

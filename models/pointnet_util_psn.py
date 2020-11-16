@@ -67,13 +67,15 @@ def index_points(points, idx):
     return new_points
 
 
-def sample_and_group_psn(npoint, sampled_points, grouped_points, sampled_feature, grouped_feature, nsample, xyz, points):
+def sample_and_group_psn(npoint, sampled_points, grouped_points, sampled_feature, grouped_feature, nsample):
     """
     Sampling and grouping point cloud with PSN.
 
     Input:
-        sampled_idx: the indices of sampled points by PSN, [B, s]
-        grouped_idx: target points, [B, s, n]
+        sampled_points: sampled points by PSN, [B, s, 3]
+        grouped_points: grouped points by PSN, [B, s, n, 3]
+        sampled_feature: sampled feature, [B, s, d]
+        grouped_feature: grouped feature, [B, s, n, d]
         nsample: the max number of local area, int
         xyz: coordinate, [B, m, 3]
         points: feature , [B, m, d]
@@ -81,18 +83,16 @@ def sample_and_group_psn(npoint, sampled_points, grouped_points, sampled_feature
         new_xyz: sampled points coordinate, [B, s, 3]
         new_points: sampled points feature, [B, s, d+3]
     """
-    B, _, C = xyz.shape
+    B, _, _ = sampled_points.shape
     S = npoint
-    grouped_xyz = grouped_points  # [B,s,n,3]
-    new_xyz = sampled_points  # [B,s,3]
-    grouped_xyz_norm = grouped_xyz - new_xyz.view(B, S, 1, C).repeat([1, 1, nsample, 1])  # [B,s,n,3]
+    grouped_xyz_norm = grouped_points - sampled_points.view(B, S, 1, 3).repeat([1, 1, nsample, 1])  # [B,s,n,3]
 
     torch.cuda.empty_cache()
-    if points is not None:
+    if grouped_feature is not None:
         new_points = torch.cat([grouped_xyz_norm, grouped_feature], dim=-1)
     else:
         new_points = grouped_xyz_norm
-    return new_xyz, new_points
+    return sampled_points, new_points
 
 
 def query_ball_point(radius, nsample, xyz, new_xyz):
