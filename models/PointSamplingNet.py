@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import math
 from torch import Tensor
 from typing import List, Tuple
 
@@ -28,7 +29,7 @@ class PointSamplingNet(nn.Module):
         assert len(mlp) > 1, "The number of MLP layers must greater than 1 !"
 
         self.mlp_convs.append(
-            nn.Conv1d(in_channels=3, out_channels=mlp[0], kernel_size=1))
+            nn.Conv1d(in_channels=6, out_channels=mlp[0], kernel_size=1))
         self.mlp_bns.append(nn.BatchNorm1d(num_features=mlp[0]))
 
         for i in range(len(mlp)-1):
@@ -64,6 +65,13 @@ class PointSamplingNet(nn.Module):
         _, m, _ = coordinate.size()
 
         assert self.s < m, "The number to sample must less than input points !"
+
+
+        yx = torch.atan2(coordinate[:,:,1], coordinate[:,:,0]) / math.pi
+        zy = torch.atan2(coordinate[:,:,2], coordinate[:,:,1]) / math.pi
+        xz = torch.atan2(coordinate[:,:,0], coordinate[:,:,2]) / math.pi
+
+        coordinate = torch.cat([coordinate, yx.unsqueeze_(2), zy.unsqueeze_(2), xz.unsqueeze_(2)], -1)
 
         x = coordinate.transpose(2, 1)  # Channel First
 
