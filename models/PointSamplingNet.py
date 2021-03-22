@@ -66,12 +66,11 @@ class PointSamplingNet(nn.Module):
 
         assert self.s < m, "The number to sample must less than input points !"
 
+        r = torch.sqrt(torch.pow(coordinate[:,:,0],2)+torch.pow(coordinate[:,:,1],2)+torch.pow(coordinate[:,:,2],2))
+        th = torch.acos(coordinate[:,:,2] / r)
+        fi = torch.atan2(coordinate[:,:,1], coordinate[:,:,0])
 
-        yx = torch.atan2(coordinate[:,:,1], coordinate[:,:,0]) / math.pi
-        zy = torch.atan2(coordinate[:,:,2], coordinate[:,:,1]) / math.pi
-        xz = torch.atan2(coordinate[:,:,0], coordinate[:,:,2]) / math.pi
-
-        coordinate = torch.cat([coordinate, yx.unsqueeze_(2), zy.unsqueeze_(2), xz.unsqueeze_(2)], -1)
+        coordinate = torch.cat([coordinate, th.unsqueeze_(2), fi.unsqueeze_(2)], -1)
 
         x = coordinate.transpose(2, 1)  # Channel First
 
